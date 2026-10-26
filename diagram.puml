@@ -1,0 +1,52 @@
+@startuml
+
+class StringData {
+    + Value : string
+    + Length : int
+    + StringData(value : string)
+    + GetDigits() : string
+    + GetLetters() : string
+    + Reorder() : void
+    + ToString() : string
+}
+
+class StringDataComparer {
+    + Compare(x : StringData, y : StringData) : int
+}
+
+interface "IComparer<StringData>" as IComparerString
+
+class "TreeNode<T>" as TreeNode {
+    + Value : T
+    + Left : TreeNode<T>
+    + Right : TreeNode<T>
+    + TreeNode(value : T)
+}
+
+class "BinaryTree<T>" as BinaryTree {
+    - root : TreeNode<T>
+    - comparer : IComparer<T>
+    + Add(value : T) : void
+    + Contains(value : T) : bool
+    + GetEnumerator() : IEnumerator<T>
+    - AddNode(node, value) : TreeNode<T>
+    - PostOrder(node) : IEnumerable<T>
+}
+
+interface "IEnumerable<T>" as IEnumerableT
+
+class CollectionDemo {
+    + Run() : void
+    - PrintItems(items) : void
+    - PrintArrayList(items) : void
+}
+
+IComparerString <|.. StringDataComparer
+IEnumerableT <|.. BinaryTree
+
+BinaryTree *-- TreeNode : містить вузли
+BinaryTree ..> IComparerString : використовує порівняння
+StringDataComparer ..> StringData : порівнює
+CollectionDemo ..> StringData : використовує
+
+@enduml
